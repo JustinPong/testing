@@ -969,7 +969,7 @@ export default {
       const newData = this.years.map((year) =>
         year.lists.map((list) =>
           list.months.map((month) => ({
-            [list.id]: {
+            [list.name]: {
               year: year.year,
               month: obj[month.key],
               count: month.count,
@@ -978,17 +978,47 @@ export default {
         )
       );
       const merge = newData.flat(2);
-      // const filtered = merge.map(list => Object.entries(list).filter(([key]) => key.includes(this.listItem[key])))
+      // const filtered = merge.map(list => Object.entries(list).filter(([key]) =>
+      // // key.includes(this.listItem[key])
+      // this.listItem.includes(key)
+      // // console.log(list)
+      // ))
+      // const merge2 = filtered.flat(2);
       // const filtered = merge.filter(function(e) {
       //   return this.indexOf(e) < 0;
       // },this.listItem)
       // const filtered = merge.filter((key) => !this.listItem.includes(Object.keys(key)))
       // console.log(this.listItem.includes(Object.keys(merge[10])))
-      this.newData = merge;
+      // const filtered = merge.map(function (list) {
+      //   return Object.keys(list)
+      //     .filter(key => this.listItem.includes(key))
+      //     .reduce((obj, key) => {
+      //       obj[key] = list[key];
+      //       return obj;
+      //     }, {});
+      // });
+      const self = this;
+      const filtered = merge.map(function (item) {
+        // console.log(self.listItem);
+        return Object.keys(item)
+          .filter((key) => self.listItem.includes(key))
+          .reduce((obj, key) => {
+            return Object.assign(obj, {
+              [key]: item[key],
+            });
+          }, {});
+      });
+      const results = filtered.filter((element) => {
+        if (Object.keys(element).length !== 0) {
+          return true;
+        }
+        return false;
+      });
+      this.newData = results;
     },
-  },
-  mounted() {
-    // this.years =
+    mounted() {
+      // this.years =
+    },
   },
 };
 </script>
