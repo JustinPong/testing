@@ -1,6 +1,6 @@
 <template>
-  <div class="w-full h-[100vh] flex flex-col justify-center items-center">
-    <select class="" v-model="filter">
+  <div class="w-full h-full flex flex-col justify-center items-center">
+    <select class="mt-64" v-model="filter">
       <option :key="index" v-for="(item, index) in years" :value="item.year">{{item.year}}</option>
       </select>
     <template v-for="(item, index) in years">
@@ -27,7 +27,7 @@
         <tr :key="i">
           <td class="flex justify-center">{{list.name}}</td>
           <template v-for="(month , ind) in list.months">
-          <td :key="ind"><input class="w-[25px]" :class="checkCSS(list.name)" v-model="month.count" /></td>
+          <td :key="ind"><input class="w-[25px] flex justify-center" :class="checkCSS(list.name)" v-model="month.count" /></td>
           </template>
         </tr>
         </template>
@@ -44,22 +44,18 @@ export default {
   name: "IndexPage",
   data() {
     return {
-      abc: [
-        {
-          year: 2012,
-          month: 1,
-          Count: 1,
-        },
-        
-      ],
       filter: 2010,
       newData: null,
+      listItem: [
+        "List 1",
+        "List 2",
+      ],
       years: [
         {
           year: 2010,
           lists: [
             {
-              id: "",
+              id: "list-1",
               name: "List 1",
               months: [
                 {
@@ -284,7 +280,7 @@ export default {
           year: 2011,
           lists: [
             {
-              id: "",
+              id: "list-1",
               name: "List 1",
               months: [
                 {
@@ -509,7 +505,7 @@ export default {
           year: 2012,
           lists: [
             {
-              id: "",
+              id: "list-1",
               name: "List 1",
               months: [
                 {
@@ -734,7 +730,7 @@ export default {
           year: 2013,
           lists: [
             {
-              id: "",
+              id: "list-1",
               name: "List 1",
               months: [
                 {
@@ -984,14 +980,16 @@ export default {
       const newData = this.years.map(year => 
         year.lists.map(list => list.months.map(month => ({
           "year": year.year,
+          "month": obj[month.key],
           "count": month.count,
-          "list": list.name,
-          "month": obj[month.key]
         })))
       )
       const merge = newData.flat(2);
       this.newData = merge;
     },
+  },
+  mounted() {
+    // this.years =
   }
 };
 </script>
@@ -1013,7 +1011,11 @@ table thead tr, button {
 
 table th,
 table td {
-    padding: 12px 15px;
+    padding: 12px 20px;
+}
+
+input {
+  width: 30px;
 }
 
 table tbody tr {
